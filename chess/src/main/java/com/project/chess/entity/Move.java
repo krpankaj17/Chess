@@ -1,31 +1,30 @@
 package com.project.chess.entity;
 
 import com.project.chess.enums.MoveType;
-import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Entity
-@Builder
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "Player")
 public class Move {
-    @Id
-    private Long id;
-    @ManyToOne
-    @JoinColumn(name = "from_id")
-    private  Position from ;
-    @ManyToOne
-    @JoinColumn(name = "to_id")
-    private  Position to;
-    @ManyToOne
-    @JoinColumn(name = "piece_id")
-    private Piece piece ;
-    @ManyToOne
-    @JoinColumn(name = "captured_piece_id")
+    private Position from;
+    private Position to;
+    private Piece piece;
     private Piece capturedPiece;
-    private MoveType moveType ;
+    private MoveType moveType;
+    private com.project.chess.enums.PieceType promotionPiece;
 
+    public Move(Position from, Position to) {
+        this.from = from;
+        this.to = to;
+        this.moveType = MoveType.NORMAL;
+    }
+
+   
 }

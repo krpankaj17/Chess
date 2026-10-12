@@ -1,0 +1,202 @@
+# =============================================================================
+# Root .gitignore for Chess Project (Backend: Spring Boot / Frontend: Next.js)
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# Configuration, Credentials & Secrets
+# -----------------------------------------------------------------------------
+# Spring Boot application properties and YAML configuration files
+**/src/main/resources/application.properties
+**/src/main/resources/application-*.properties
+**/src/main/resources/application.yml
+**/src/main/resources/application-*.yml
+**/src/main/resources/application.yaml
+**/src/main/resources/application-*.yaml
+**/src/test/resources/application.properties
+**/src/test/resources/application-*.properties
+**/src/test/resources/application.yml
+**/src/test/resources/application-*.yml
+**/src/test/resources/application.yaml
+**/src/test/resources/application-*.yaml
+application*.properties
+application*.yml
+application*.yaml
+
+# Allow example / template config files to be committed
+!**/application.properties.example
+!**/application-*.properties.example
+!**/application.yml.example
+!**/application-*.yml.example
+!**/*.example.properties
+!**/*.example.yml
+!**/*.example.yaml
+
+# Frontend Environment Variables & Secrets
+.env
+.env*.local
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+**/.env
+**/.env*.local
+**/.env.local
+**/.env.development.local
+**/.env.test.local
+**/.env.production.local
+!**/.env.example
+
+# Security Keys, Certificates & Tokens
+*.pem
+*.key
+*.keystore
+*.jks
+*.p12
+*.cert
+*.crt
+*.der
+id_rsa*
+
+# -----------------------------------------------------------------------------
+# Backend (Java / Maven / Spring Boot)
+# -----------------------------------------------------------------------------
+# Compiled class files & packages
+target/
+**/target/
+build/
+**/build/
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+*.zip
+*.tar.gz
+*.rar
+
+# Maven wrapper cache and generated files
+.mvn/wrapper/maven-wrapper.jar
+**/.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# Java crash and profiling logs
+hs_err_pid*
+replay_pid*
+
+# -----------------------------------------------------------------------------
+# Frontend (Node.js / React / Next.js)
+# -----------------------------------------------------------------------------
+# Dependencies
+node_modules/
+**/node_modules/
+.pnp
+.pnp.*
+**/.pnp
+**/.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# Next.js build output
+.next/
+**/.next/
+out/
+**/out/
+dist/
+**/dist/
+.vercel/
+**/.vercel/
+
+# TypeScript compiler build info
+*.tsbuildinfo
+**/*.tsbuildinfo
+next-env.d.ts
+**/next-env.d.ts
+
+# Package manager & Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+lerna-debug.log*
+logs/
+**/logs/
+*.log
+
+# Test coverage
+coverage/
+**/coverage/
+.nyc_output/
+**/.nyc_output/
+
+# -----------------------------------------------------------------------------
+# IDEs & Code Editors
+# -----------------------------------------------------------------------------
+# IntelliJ IDEA
+.idea/
+**/.idea/
+*.iws
+*.iml
+*.ipr
+out/
+**/out/
+
+# Visual Studio Code
+.vscode/
+**/.vscode/
+*.code-workspace
+
+# Eclipse / Spring Tool Suite (STS)
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings/
+**/.settings/
+.springBeans
+.sts4-cache/
+**/.sts4-cache/
+
+# NetBeans
+nbproject/private/
+**/nbproject/private/
+nbbuild/
+**/nbbuild/
+nbdist/
+**/nbdist/
+.nb-gradle/
+**/.nb-gradle/
+
+# -----------------------------------------------------------------------------
+# Operating System & Temporary Files
+# -----------------------------------------------------------------------------
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+
+# Temporary files
+tmp/
+**/tmp/
+temp/
+**/temp/
+*.swp
+*.swo

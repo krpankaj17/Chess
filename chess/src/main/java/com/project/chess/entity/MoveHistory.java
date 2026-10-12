@@ -1,21 +1,29 @@
 package com.project.chess.entity;
 
-import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
 
-@Entity
-@Builder
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@Table(name = "Player")
-
 public class MoveHistory {
-    @Id
-    private Long id;
-    @ManyToOne
-    @JoinColumn(name = "move_id")
-    private Move move;
-    
+    private final List<Move> moves = new ArrayList<>();
+
+    public void add(Move move) {
+        moves.add(move);
+    }
+
+    public Move undo() {
+        if (moves.isEmpty()) {
+            return null;
+        }
+        return moves.remove(moves.size() - 1);
+    }
+
+    public Move getLastMove() {
+        if (moves.isEmpty()) {
+            return null;
+        }
+        return moves.get(moves.size() - 1);
+    }
 }

@@ -1,16 +1,18 @@
 package com.project.chess.service;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import com.project.chess.entity.*;
+import com.project.chess.enums.Color;
+import com.project.chess.enums.PieceType;
 
-import java.util.Map;
-
-@Service
-@RequiredArgsConstructor
-public class PieceFactory{
-    private final Map<String, PieceService> pieceServiceMap;
-    public PieceService getPieceService(String pieceType){
-       return pieceServiceMap.get(pieceType);
+public class PieceFactory {
+    public static Piece createPiece(PieceType type, Color color) {
+        return switch (type) {
+            case PAWN -> new Pawn(color);
+            case KNIGHT -> new Knight(color);
+            case BISHOP -> new Bishop(color);
+            case ROOK -> new Rook(color);
+            case QUEEN -> new Queen(color);
+            case KING -> new King(color);
+        };
     }
-    
 }

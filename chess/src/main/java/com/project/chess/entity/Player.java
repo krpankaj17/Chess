@@ -1,23 +1,22 @@
 package com.project.chess.entity;
 
 import com.project.chess.enums.Color;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Entity
-@Builder
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "Player")
 public class Player {
-    @Id
-    private Long id;
-    private  String name ;
-    private String email;
-    private Color color ;
-    private Integer elo;
+    private String name;
+    private Color color;
+
+    public Move makeMove(Position from, Position to) {
+        return Move.builder().from(from).to(to).build();
+    }
 }

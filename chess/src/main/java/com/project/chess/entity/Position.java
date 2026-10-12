@@ -1,20 +1,17 @@
 package com.project.chess.entity;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import lombok.*;
-
-@Entity
 @Builder
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "Position")
+@EqualsAndHashCode
 public class Position {
-    @Id
-    private Long id;
-    private Integer row ;
-    private  Integer column;
+    private Integer row;
+    private Integer column;
+
+    public Boolean isValid(){
+        return this.row >= 0 && this.row < 8 && this.column >= 0 && this.column < 8;
+    }
 }
+

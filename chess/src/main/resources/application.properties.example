@@ -1,0 +1,12 @@
+# Spring Boot Application Configuration Template
+spring.application.name=chess
+spring.datasource.url=jdbc:postgresql://localhost:5432/chess_db
+spring.datasource.username=postgres
+spring.datasource.password=your_password_here
+spring.datasource.driver-class-name=org.postgresql.Driver
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+
+# JWT Security Configuration
+jwt.secret=your-256-bit-secret-key-change-this-in-production-1234567890
+jwt.expiration=86400000

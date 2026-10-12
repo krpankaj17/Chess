@@ -4,6 +4,21 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+### Application Configuration & Secrets ###
+**/src/main/resources/application.properties
+**/src/main/resources/application-*.properties
+**/src/main/resources/application.yml
+**/src/main/resources/application-*.yml
+**/src/test/resources/application.properties
+**/src/test/resources/application-*.properties
+**/src/test/resources/application.yml
+**/src/test/resources/application-*.yml
+application*.properties
+application*.yml
+!**/application.properties.example
+!**/application.yml.example
+*.log
+
 ### STS ###
 .apt_generated
 .classpath
