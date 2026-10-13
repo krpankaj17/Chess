@@ -15,8 +15,8 @@ target/
 **/src/test/resources/application-*.yml
 application*.properties
 application*.yml
-!**/application.properties.example
-!**/application.yml.example
+!src/main/resources/application.properties
+!**/src/main/resources/application.properties
 *.log
 
 ### STS ###

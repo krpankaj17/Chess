@@ -85,8 +85,12 @@ const PIECE_LETTERS: Record<string, string> = {
   PAWN: "",
 };
 
-const API_BASE = "http://localhost:8080";
-const WS_BASE = "ws://localhost:8080/ws";
+const API_BASE = (process.env.NEXT_PUBLIC_API_BASE || "http://localhost:8080").replace(/\/+$/, "");
+const WS_BASE = process.env.NEXT_PUBLIC_WS_BASE || (
+  API_BASE.startsWith("https")
+    ? API_BASE.replace(/^https:/, "wss:") + "/ws"
+    : API_BASE.replace(/^http:/, "ws:") + "/ws"
+);
 
 function playSound(type: "move" | "capture" | "check" | "castle" | "gameover") {
   try {

@@ -22,7 +22,8 @@ application*.properties
 application*.yml
 application*.yaml
 
-# Allow example / template config files to be committed
+# Allow application.properties with environment variable defaults to be committed
+!**/src/main/resources/application.properties
 !**/application.properties.example
 !**/application-*.properties.example
 !**/application.yml.example
