@@ -1,6 +1,8 @@
 package com.project.chess.entity;
 
 import com.project.chess.enums.Color;
+import com.project.chess.enums.MoveType;
+import com.project.chess.enums.PieceType;
 import lombok.Getter;
 
 @Getter
@@ -72,17 +74,39 @@ public class Board {
         }
     }
     public void undoMove(Move move) {
-    Square fromSquare = getSquare(move.getFrom());
-    Square toSquare = getSquare(move.getTo());
+        if (move == null || move.getFrom() == null || move.getTo() == null) {
+            return;
+        }
 
-    if (fromSquare == null || toSquare == null) {
-        return;
+        Square fromSquare = getSquare(move.getFrom());
+        Square toSquare = getSquare(move.getTo());
+
+        if (fromSquare == null || toSquare == null) {
+            return;
+        }
+
+        // Restore moving piece
+        fromSquare.setPiece(move.getPiece());
+        if (move.getPiece() != null) {
+            move.getPiece().setHasMoved(move.isPiecePreviouslyMoved());
+        }
+
+        if (move.getMoveType() == MoveType.EN_PASSANT) {
+            toSquare.setPiece(null);
+            if (move.getCapturedPiecePosition() != null) {
+                setPiece(move.getCapturedPiecePosition(), move.getCapturedPiece());
+            }
+        } else if (move.getMoveType() == MoveType.CASTLING) {
+            toSquare.setPiece(null);
+            if (move.getCastledRook() != null && move.getRookFrom() != null && move.getRookTo() != null) {
+                setPiece(move.getRookTo(), null);
+                setPiece(move.getRookFrom(), move.getCastledRook());
+                move.getCastledRook().setHasMoved(move.isRookPreviouslyMoved());
+            }
+        } else {
+            toSquare.setPiece(move.getCapturedPiece());
+        }
     }
-
-    fromSquare.setPiece(move.getPiece());
-    toSquare.setPiece(move.getCapturedPiece());
-}
-
 
     public void movePiece(Move move) {
         Square fromSquare = getSquare(move.getFrom());
@@ -94,10 +118,65 @@ public class Board {
 
         Piece movingPiece = fromSquare.getPiece();
         move.setPiece(movingPiece);
-        move.setCapturedPiece(toSquare.getPiece());
+        move.setPiecePreviouslyMoved(movingPiece.isHasMoved());
 
-        fromSquare.setPiece(null);
-        toSquare.setPiece(movingPiece);
+        // Auto-detect moveType if not set or default NORMAL
+        if (move.getMoveType() == null || move.getMoveType() == MoveType.NORMAL) {
+            if (movingPiece.getType() == PieceType.KING &&
+                Math.abs(move.getTo().getColumn() - move.getFrom().getColumn()) == 2) {
+                move.setMoveType(MoveType.CASTLING);
+            } else if (movingPiece.getType() == PieceType.PAWN &&
+                !move.getFrom().getColumn().equals(move.getTo().getColumn()) &&
+                toSquare.isEmpty()) {
+                move.setMoveType(MoveType.EN_PASSANT);
+            } else if (!toSquare.isEmpty()) {
+                move.setMoveType(MoveType.CAPTURE);
+            } else {
+                move.setMoveType(MoveType.NORMAL);
+            }
+        }
+
+        if (move.getMoveType() == MoveType.EN_PASSANT) {
+            Position capturedPos = new Position(move.getFrom().getRow(), move.getTo().getColumn());
+            move.setCapturedPiecePosition(capturedPos);
+            move.setCapturedPiece(getPiece(capturedPos));
+            setPiece(capturedPos, null);
+
+            fromSquare.setPiece(null);
+            toSquare.setPiece(movingPiece);
+        } else if (move.getMoveType() == MoveType.CASTLING) {
+            move.setCapturedPiece(null);
+            fromSquare.setPiece(null);
+            toSquare.setPiece(movingPiece);
+
+            int row = move.getFrom().getRow();
+            Position rookFrom;
+            Position rookTo;
+            if (move.getTo().getColumn() == 6) { // Kingside
+                rookFrom = new Position(row, 7);
+                rookTo = new Position(row, 5);
+            } else { // Queenside
+                rookFrom = new Position(row, 0);
+                rookTo = new Position(row, 3);
+            }
+
+            Piece rook = getPiece(rookFrom);
+            if (rook != null) {
+                move.setCastledRook(rook);
+                move.setRookFrom(rookFrom);
+                move.setRookTo(rookTo);
+                move.setRookPreviouslyMoved(rook.isHasMoved());
+                setPiece(rookFrom, null);
+                setPiece(rookTo, rook);
+                rook.setHasMoved(true);
+            }
+        } else {
+            move.setCapturedPiece(toSquare.getPiece());
+            move.setCapturedPiecePosition(move.getTo());
+            fromSquare.setPiece(null);
+            toSquare.setPiece(movingPiece);
+        }
+
         movingPiece.setHasMoved(true);
     }
 }

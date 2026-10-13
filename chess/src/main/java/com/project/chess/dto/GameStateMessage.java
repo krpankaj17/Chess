@@ -28,4 +28,11 @@ public class GameStateMessage {
     private String winner;
     private Integer whiteElo;
     private Integer blackElo;
+    private String moveType;
+    private Integer rookFromRow;
+    private Integer rookFromCol;
+    private Integer rookToRow;
+    private Integer rookToCol;
+    private Integer capturedSquareRow;
+    private Integer capturedSquareCol;
 }

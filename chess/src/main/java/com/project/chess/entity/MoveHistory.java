@@ -17,13 +17,13 @@ public class MoveHistory {
         if (moves.isEmpty()) {
             return null;
         }
-        return moves.remove(moves.size() - 1);
+        return moves.removeLast();
     }
 
     public Move getLastMove() {
         if (moves.isEmpty()) {
             return null;
         }
-        return moves.get(moves.size() - 1);
+        return moves.getLast();
     }
 }

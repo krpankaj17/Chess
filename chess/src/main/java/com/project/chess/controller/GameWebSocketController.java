@@ -30,6 +30,7 @@ public class GameWebSocketController {
     private final SimpMessagingTemplate messagingTemplate;
     private final EloService eloService;
     private final UserRepository userRepository;
+    private final com.project.chess.service.ChessGameService chessGameService;
 
     @MessageMapping("/game/{gameId}/move")
     public void processMove(@DestinationVariable String gameId,
@@ -67,7 +68,7 @@ public class GameWebSocketController {
 
         Move move = Move.builder().from(from).to(to).promotionPiece(promoType).build();
 
-        boolean moved = game.makeMove(move);
+        boolean moved = chessGameService.makeMove(game, move);
         if (!moved) {
             return;
         }
@@ -75,17 +76,32 @@ public class GameWebSocketController {
         boolean isCheck = game.getStatus() == GameStatus.CHECK || game.getStatus() == GameStatus.CHECKMATE;
         String checkedColor = isCheck ? game.getCurrentTurn().name() : null;
 
+        Integer rFromRow = move.getRookFrom() != null ? move.getRookFrom().getRow() : null;
+        Integer rFromCol = move.getRookFrom() != null ? move.getRookFrom().getColumn() : null;
+        Integer rToRow = move.getRookTo() != null ? move.getRookTo().getRow() : null;
+        Integer rToCol = move.getRookTo() != null ? move.getRookTo().getColumn() : null;
+
+        Integer capRow = move.getCapturedPiecePosition() != null ? move.getCapturedPiecePosition().getRow() : null;
+        Integer capCol = move.getCapturedPiecePosition() != null ? move.getCapturedPiecePosition().getColumn() : null;
+
         GameStateMessage msg = GameStateMessage.builder()
                 .gameId(gameId)
                 .currentTurn(game.getCurrentTurn().name())
                 .status(game.getStatus().name())
-                .fromRow(from.getRow())
-                .fromCol(from.getColumn())
-                .toRow(to.getRow())
-                .toCol(to.getColumn())
+                .fromRow(move.getFrom().getRow())
+                .fromCol(move.getFrom().getColumn())
+                .toRow(move.getTo().getRow())
+                .toCol(move.getTo().getColumn())
                 .movedPiece(move.getPiece().getType().name())
                 .capturedPiece(move.getCapturedPiece() != null ? move.getCapturedPiece().getType().name() : null)
                 .promotionPiece(move.getPromotionPiece() != null ? move.getPromotionPiece().name() : null)
+                .moveType(move.getMoveType() != null ? move.getMoveType().name() : "NORMAL")
+                .rookFromRow(rFromRow)
+                .rookFromCol(rFromCol)
+                .rookToRow(rToRow)
+                .rookToCol(rToCol)
+                .capturedSquareRow(capRow)
+                .capturedSquareCol(capCol)
                 .check(isCheck)
                 .checkedKingColor(checkedColor)
                 .gameOver(game.isGameOver())

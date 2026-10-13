@@ -19,12 +19,16 @@ public class Move {
     private Piece capturedPiece;
     private MoveType moveType;
     private com.project.chess.enums.PieceType promotionPiece;
+    private Position capturedPiecePosition;
+    private boolean piecePreviouslyMoved;
+    private Position rookFrom;
+    private Position rookTo;
+    private Piece castledRook;
+    private boolean rookPreviouslyMoved;
 
     public Move(Position from, Position to) {
         this.from = from;
         this.to = to;
         this.moveType = MoveType.NORMAL;
     }
-
-   
 }

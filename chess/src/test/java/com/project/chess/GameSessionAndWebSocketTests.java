@@ -35,8 +35,10 @@ class GameSessionAndWebSocketTests {
         messagingTemplate = mock(SimpMessagingTemplate.class);
         eloService = new EloService();
         userRepository = mock(UserRepository.class);
+        com.project.chess.service.ChessRuleService ruleService = new com.project.chess.service.ChessRuleService();
+        com.project.chess.service.ChessGameService gameService = new com.project.chess.service.ChessGameService(ruleService);
 
-        controller = new GameWebSocketController(gameSessionManager, messagingTemplate, eloService, userRepository);
+        controller = new GameWebSocketController(gameSessionManager, messagingTemplate, eloService, userRepository, gameService);
     }
 
     @Test
